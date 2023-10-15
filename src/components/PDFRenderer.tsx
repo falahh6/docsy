@@ -1,6 +1,12 @@
 "use client";
 
-import { ChevronDownIcon, ChevronUp, Loader2, Search } from "lucide-react";
+import {
+  ChevronDownIcon,
+  ChevronUp,
+  Loader2,
+  RotateCw,
+  Search,
+} from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useResizeDetector } from "react-resize-detector";
 import { useForm } from "react-hook-form";
@@ -23,6 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Simplebar from "simplebar-react";
+import PDFfullscreen from "./PDFfullscreen";
 
 interface pdfRendererProps {
   url: string;
@@ -34,6 +41,7 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
   const [numPages, setNumPages] = useState<number>();
   const [currPage, setCurrPage] = useState<number>(1);
   const [scale, setScale] = useState<number>(1.0);
+  const [rotate, setRotate] = useState<number>(0);
 
   const CustomPageValidator = z.object({
     page: z
@@ -72,7 +80,11 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
             disabled={currPage <= 1}
             aria-label="previous page"
             variant="ghost"
-            onClick={() => setCurrPage((prev) => (prev - 1 > 1 ? prev - 1 : 1))}
+            onClick={() => {
+              setCurrPage((prev) => (prev - 1 > 1 ? prev - 1 : 1));
+              setValue("page", String(currPage - 1));
+            }}
+            className="p-1 h-fit"
           >
             <ChevronDownIcon className="h-4 w-4" />
           </Button>
@@ -81,15 +93,14 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
             <Input
               {...register("page")}
               className={cn(
-                "w-12 h-8",
-                errors.page && "focus-visible:ring-red-400"
+                "w-12 h-8 focus-visible:ring-transparent focus-visible:outline-none focus-visible:border-blue-500 border-2",
+                errors.page && "focus-visible:border-red-400"
               )}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleSubmit(submitHandler)();
                 }
               }}
-              defaultValue={1}
             />
             <p className="text-zinc-700 text-sm space-x-1">
               <span>/</span>
@@ -101,11 +112,13 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
             disabled={numPages === undefined || currPage === numPages}
             aria-label="next page"
             variant="ghost"
-            onClick={() =>
+            className="p-1 h-fit"
+            onClick={() => {
               setCurrPage((prev) =>
                 prev + 1 > numPages! ? numPages! : prev + 1
-              )
-            }
+              );
+              setValue("page", String(currPage + 1));
+            }}
           >
             <ChevronUp className="h-4 w-4" />
           </Button>
@@ -120,7 +133,7 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
                 <ChevronDownIcon className="h-3 w-3 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="mr-1">
               <DropdownMenuItem onSelect={() => setScale(1.0)}>
                 100%
               </DropdownMenuItem>
@@ -135,6 +148,17 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <Button
+            aria-label="rotate 90 degrees"
+            variant="ghost"
+            onClick={() => {
+              setRotate((prev) => prev + 90);
+            }}
+          >
+            <RotateCw className="h-4 w-4" />
+          </Button>
+          <PDFfullscreen url={url} />
         </div>
       </div>
 
@@ -156,12 +180,18 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
               }}
               onLoadSuccess={({ numPages }) => setNumPages(numPages)}
               file={url}
-              className="max-h-full"
+              className=" max-h-[80vh] h-[80vh] overflow-scroll"
+              rotate={rotate}
             >
               <Page
                 scale={scale}
                 width={width ? width : 1}
                 pageNumber={currPage}
+                loading={
+                  <div className="flex justify-center">
+                    <Loader2 className="my-24 h-6 2-6 animate-spin" />
+                  </div>
+                }
               />
             </Document>
           </div>
