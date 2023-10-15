@@ -42,6 +42,9 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
   const [currPage, setCurrPage] = useState<number>(1);
   const [scale, setScale] = useState<number>(1.0);
   const [rotate, setRotate] = useState<number>(0);
+  const [renderedScale, setRenderedScale] = useState<number | null>(null);
+
+  const isLoading = renderedScale !== scale;
 
   const CustomPageValidator = z.object({
     page: z
@@ -183,15 +186,33 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
               className=" max-h-[80vh] h-[80vh] overflow-scroll"
               rotate={rotate}
             >
+              {renderedScale && isLoading ? (
+                <Page
+                  scale={scale}
+                  width={width ? width : 1}
+                  pageNumber={currPage}
+                  key={"@" + renderedScale}
+                  loading={
+                    <div className="flex justify-center">
+                      <Loader2 className="my-24 h-6 2-6 animate-spin" />
+                    </div>
+                  }
+                />
+              ) : null}
               <Page
+                className={cn(isLoading ? "hidden" : "")}
                 scale={scale}
                 width={width ? width : 1}
                 pageNumber={currPage}
+                key={"@" + scale}
                 loading={
                   <div className="flex justify-center">
                     <Loader2 className="my-24 h-6 2-6 animate-spin" />
                   </div>
                 }
+                onRenderSuccess={() => {
+                  setRenderedScale(scale);
+                }}
               />
             </Document>
           </div>
