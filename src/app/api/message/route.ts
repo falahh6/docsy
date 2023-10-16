@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { SendMessageValidator } from "@/lib/validators/sendmessagevalidator";
+import { SendMessageValidator } from "@/lib/SendMesa/SendMessageValidator";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { NextRequest } from "next/server";
 
@@ -27,4 +27,12 @@ export const POST = async (req: NextRequest) => {
   if (!file) return new Response("NOT FOUND", { status: 404 });
 
   //
+  await db.message.create({
+    data: {
+      text: message,
+      isUserMessage: true,
+      userId,
+      fileId,
+    },
+  });
 };
