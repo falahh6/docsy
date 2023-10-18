@@ -43,17 +43,24 @@ export const ourFileRouter = {
           // // vectorise and Index!
           // const pinecone = await getPineconeClient();
           const pineconeIndex = pinecone.Index("docsy");
-          console.log(pineconeIndex);
 
-          pinecone.listIndexes();
           const embeddings = new OpenAIEmbeddings({
             openAIApiKey: process.env.OPENAI_API_KEY,
           });
 
-          // await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
-          //   pineconeIndex,
-          //   namespace: createdFile.id,
-          // });
+          const combinedData = pageLevelDocs.map((document) => {
+            return {
+              ...document,
+              metadata: {
+                fileId: createdFile.id,
+              },
+              dataset: "pdf",
+            };
+          });
+
+          await PineconeStore.fromDocuments(combinedData, embeddings, {
+            pineconeIndex,
+          });
 
           await db.file.update({
             data: {
@@ -64,8 +71,16 @@ export const ourFileRouter = {
             },
           });
         })
-        .catch((err) => {
+        .catch(async (err) => {
           console.log(err);
+          await db.file.update({
+            data: {
+              uploadStatus: "FAILED",
+            },
+            where: {
+              id: createdFile.id,
+            },
+          });
         });
     }),
 } satisfies FileRouter;

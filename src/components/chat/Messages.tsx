@@ -1,4 +1,4 @@
 const Messages = () => {
-  return <div>ye</div>;
+  return <div>CHAT MESSAGES</div>;
 };
 export default Messages;

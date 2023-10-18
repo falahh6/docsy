@@ -1,11 +1,23 @@
 import { db } from "@/db";
-import { SendMessageValidator } from "@/lib/SendMesa/SendMessageValidator";
+import { SendMessageValidator } from "@/lib/validators/SendMessageValidator";
 import { openai } from "@/lib/openai";
 import { pinecone } from "@/lib/pinecone";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { NextRequest } from "next/server";
+import { OpenAIStream, StreamingTextResponse } from "ai";
+
+interface SearchResult {
+  pageContent: string;
+  metadata: {
+    fileName: string;
+  };
+}
+
+function customFilter(result: SearchResult, targetFileName: string): boolean {
+  return result.metadata?.fileName === targetFileName;
+}
 
 export const POST = async (req: NextRequest) => {
   // api endpoint asking questions for a pdf file
@@ -47,14 +59,18 @@ export const POST = async (req: NextRequest) => {
   });
 
   const pineconeIndex = pinecone.Index("docsy");
+  console.log("STEP 1");
 
   const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
     pineconeIndex,
-    namespace: file.id,
   });
 
-  const results = await vectorStore.similaritySearch(message, 4);
+  console.log("STEP 2", vectorStore);
+  const results = await vectorStore.similaritySearch(message, 1, {
+    filter: (result: SearchResult) => customFilter(result, file.id),
+  });
 
+  console.log("STEP 3", results);
   const prevMessages = await db.message.findMany({
     where: {
       fileId,
@@ -64,6 +80,8 @@ export const POST = async (req: NextRequest) => {
     },
     take: 6,
   });
+
+  console.log("STEP 4", prevMessages);
 
   const formattedMessages = prevMessages.map((msg) => ({
     role: msg.isUserMessage ? ("user" as const) : ("assistant" as const),
@@ -83,22 +101,37 @@ export const POST = async (req: NextRequest) => {
       {
         role: "user",
         content: `Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format. \nIf you don't know the answer, just say that you don't know, don't try to make up an answer.
-        
+
   \n----------------\n
-  
+
   PREVIOUS CONVERSATION:
   ${formattedMessages.map((message) => {
     if (message.role === "user") return `User: ${message.content}\n`;
     return `Assistant: ${message.content}\n`;
   })}
-  
+
   \n----------------\n
-  
+
   CONTEXT:
   ${results.map((r) => r.pageContent).join("\n\n")}
-  
+
   USER INPUT: ${message}`,
       },
     ],
   });
+
+  const stream = OpenAIStream(response, {
+    async onCompletion(completeion) {
+      await db.message.create({
+        data: {
+          text: completeion,
+          isUserMessage: false,
+          fileId,
+          userId,
+        },
+      });
+    },
+  });
+
+  return new StreamingTextResponse(stream);
 };
