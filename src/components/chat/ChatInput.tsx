@@ -13,9 +13,6 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
     useContext(ChatContext);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleInputChangeT = () => {
-    console.log(message);
-  };
   return (
     <div className="absolute bottom-0 w-full left-0">
       <form className="mx-2 flex flex-row gap-3 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl">
@@ -43,9 +40,9 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                 aria-label="send message"
                 disabled={isLoading}
                 type="submit"
-                onClick={() => {
+                onClick={(e) => {
                   addMessage();
-
+                  e.preventDefault();
                   textareaRef.current?.focus();
                 }}
               >

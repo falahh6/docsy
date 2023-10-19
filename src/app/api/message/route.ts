@@ -59,18 +59,14 @@ export const POST = async (req: NextRequest) => {
   });
 
   const pineconeIndex = pinecone.Index("docsy");
-  console.log("STEP 1");
 
   const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
     pineconeIndex,
   });
-
-  console.log("STEP 2", vectorStore);
   const results = await vectorStore.similaritySearch(message, 1, {
     filter: (result: SearchResult) => customFilter(result, file.id),
   });
 
-  console.log("STEP 3", results);
   const prevMessages = await db.message.findMany({
     where: {
       fileId,
@@ -80,8 +76,6 @@ export const POST = async (req: NextRequest) => {
     },
     take: 6,
   });
-
-  console.log("STEP 4", prevMessages);
 
   const formattedMessages = prevMessages.map((msg) => ({
     role: msg.isUserMessage ? ("user" as const) : ("assistant" as const),
