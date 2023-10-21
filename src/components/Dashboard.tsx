@@ -8,12 +8,8 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { db } from "@/db";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const Dashboard = () => {
-  const { getUser } = getKindeServerSession();
-  const user = getUser();
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null);
