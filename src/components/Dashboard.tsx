@@ -8,14 +8,17 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { db } from "@/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const Dashboard = () => {
+  const { getUser } = getKindeServerSession();
+  const user = getUser();
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null);
   const utils = trpc.useContext();
   const { data: files, isLoading } = trpc.getUserFiles.useQuery();
-  console.log(files);
   const { mutate: deleteFile } = trpc.deleteFile.useMutation({
     onSuccess: () => {
       utils.getUserFiles.invalidate();
@@ -73,7 +76,7 @@ const Dashboard = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <MessagesSquare className="h-4 w-4" />
-                    67
+                    88
                   </div>
                   <Button
                     onClick={() => deleteFile({ id: file.id })}

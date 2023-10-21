@@ -20,8 +20,6 @@ function customFilter(result: SearchResult, targetFileName: string): boolean {
 }
 
 export const POST = async (req: NextRequest) => {
-  // api endpoint asking questions for a pdf file
-
   const body = await req.json();
 
   const { getUser } = getKindeServerSession();

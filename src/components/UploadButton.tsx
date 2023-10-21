@@ -49,7 +49,6 @@ const UploadDropzone = () => {
       onDrop={async (acceptedFiles) => {
         setIsUploading(true);
 
-        console.log(acceptedFiles);
         const progressInterval = startSimulatedProgress();
 
         // handle file uploading
@@ -77,8 +76,6 @@ const UploadDropzone = () => {
         clearInterval(progressInterval);
         setUploadProgress(100);
 
-        console.log("from onDrop after 100%");
-        console.log(key);
         startPolling({ key });
       }}
     >

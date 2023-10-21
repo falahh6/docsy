@@ -6,25 +6,25 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model User {
-  id String @id @unique
+  id    String @id @unique //matches kinde user id
   email String @unique
 
   File    File[]
   Message Message[]
 
-  stripeCustomerId String? @unique @map(name : "stripe_customer_id")
-  stripeSubscriptionId String? @unique @map(name : "stripe_subscription_id")
-  stripePriceId String? @map(name : "stripe_price_id") 
-  stripeCurrentPeriodEnd DateTime? @map(name : "stiper_current_period_end")
+  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
+  stripePriceId          String?   @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 }
 
-enum uploadStatus{
+enum UploadStatus {
   PENDING
   PROCESSING
   FAILED
@@ -32,31 +32,31 @@ enum uploadStatus{
 }
 
 model File {
-  id String @id @default(cuid())
+  id   String @id @default(cuid())
   name String
 
-  uploadStatus uploadStatus @default(PENDING)
+  uploadStatus UploadStatus @default(PENDING)
 
-  url String 
-  key String
-  message Message[]
+  url      String
+  key      String
+  messages Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  User User? @relation(fields: [userId], references: [id])
-  userId String?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }
 
 model Message {
-  id String @id @default(cuid())
+  id   String @id @default(cuid())
   text String @db.Text()
-  
-  isUserMessage Boolean 
+
+  isUserMessage Boolean
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  User User? @relation(fields: [userId], references: [id])
-  userId String?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
   File      File?    @relation(fields: [fileId], references: [id])
   fileId    String?
 }
