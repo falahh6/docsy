@@ -9,10 +9,14 @@ import {
 } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ArrowRight } from "lucide-react";
 import UserAccountNav from "./UserAccountNav";
+import MobileNav from "./MobileNav";
+import { getUserSubscriptionPlan } from "@/lib/stripe";
 
-const NavBar = () => {
+const NavBar = async () => {
   const { getUser } = getKindeServerSession();
   const user = getUser();
+  const subscriptionPlan = await getUserSubscriptionPlan();
+
   return (
     <nav className="sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
@@ -23,6 +27,8 @@ const NavBar = () => {
           >
             <span>docsy.</span>
           </Link>
+
+          <MobileNav user={user} subscription={subscriptionPlan} />
 
           <div className="hidden items-center space-x-4 sm:flex">
             {!user ? (
@@ -68,7 +74,7 @@ const NavBar = () => {
                   name={
                     !user.family_name && !user.given_name
                       ? "Your account"
-                      : `${user.given_name} ${user.given_name}`
+                      : `${user.given_name} ${user.family_name}`
                   }
                   imageUrl={user.picture ?? ""}
                   email={user.email ?? ""}
@@ -77,8 +83,6 @@ const NavBar = () => {
             )}
           </div>
         </div>
-
-        {/* todo : mobile responsive */}
       </MaxWidthWrapper>
     </nav>
   );
