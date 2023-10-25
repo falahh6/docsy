@@ -82,6 +82,7 @@ export const appRouter = router({
       return file;
     }),
   createStripSession: privateProcedure.mutation(async ({ ctx }) => {
+    console.log("yes");
     const { userId } = ctx;
 
     const billingUrl = absoluteUrl("/dashboard/billing");
@@ -94,17 +95,21 @@ export const appRouter = router({
       },
     });
 
-    console.log(dbUser);
-
     if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" });
 
     const subscriptionPlan = await getUserSubscriptionPlan();
 
-    if (!subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
+    if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
+      console.log("creating : ", dbUser.stripeCustomerId);
+      // const stripeSession = await stripe.billingPortal.sessions.create({
+      //   customer: dbUser.stripeCustomerId,
+      //   return_url: billingUrl,
+      // });
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: dbUser.stripeCustomerId,
         return_url: billingUrl,
       });
+      console.log("CREATED");
 
       return { url: stripeSession.url };
     }

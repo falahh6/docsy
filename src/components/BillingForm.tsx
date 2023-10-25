@@ -49,10 +49,11 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
           <CardHeader>
             <CardTitle>Subscription Plan</CardTitle>
             <CardDescription>
-              You are currently on <strong>{subscriptionPlan.name}</strong>Plan.
+              You are currently on <strong>{subscriptionPlan.name}</strong>{" "}
+              plan.
             </CardDescription>
           </CardHeader>
-          <CardFooter>
+          <CardFooter className="flex justify-between">
             <Button type="submit">
               {isLoading ? (
                 <Loader2 className="h-4 w-4 mr-4 animate-spin" />
