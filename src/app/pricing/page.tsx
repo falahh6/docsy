@@ -8,10 +8,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { PLANS } from "@/config/stripe";
-import { cn } from "@/lib/utils";
+import { cn, constructMetadata } from "@/lib/utils";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ArrowRight, Check, HelpCircle, Minus } from "lucide-react";
 import Link from "next/link";
+
+export const metadata = constructMetadata({
+  title: "Pricing | docsy",
+});
 
 const Page = () => {
   const { getUser } = getKindeServerSession();

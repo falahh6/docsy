@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { cn, constructMetadata } from "@/lib/utils";
 import NavBar from "@/components/NavBar";
 import Providers from "@/components/Prividers";
 
@@ -12,10 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "docsy",
-  description: "Chat with you documents in just 3 steps",
-};
+export const metadata = constructMetadata();
 
 export default function RootLayout({
   children,

@@ -1,6 +1,7 @@
 import ChatWrapper from "@/components/chat/ChatWrapper";
 import PDFRenderer from "@/components/PDFRenderer";
 import { db } from "@/db";
+import { constructMetadata } from "@/lib/utils";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { notFound, redirect } from "next/navigation";
 
@@ -10,6 +11,10 @@ interface pageProps {
   };
 }
 
+export const metadata = constructMetadata({
+  title: "Chat now",
+});
+
 const page = async ({ params }: pageProps) => {
   const { fileId } = params;
 
@@ -18,7 +23,6 @@ const page = async ({ params }: pageProps) => {
 
   if (!user || !user.id) redirect(`/auth-callback?origin=dashboard/${fileId}`);
 
-  //  make database call
   const file = await db.file.findFirst({
     where: {
       id: fileId,
