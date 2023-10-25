@@ -1,6 +1,6 @@
 "use client";
 
-import { Gem, Menu, User } from "lucide-react";
+import { Gem, Menu, User, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -33,11 +33,17 @@ const MobileNav = ({ user, subscription }: mobileNavProps) => {
 
   return (
     <div className="sm:hidden flex items-center">
-      <Menu
-        className="h-5 w-4 relative z-50 text-zinc-500"
-        onClick={togleMenu}
-      />
-
+      {isOpen ? (
+        <X
+          className="h-8 w-8 relative z-50 text-zinc-500"
+          onClick={togleMenu}
+        />
+      ) : (
+        <Menu
+          className="h-8 w-8 relative z-50 text-zinc-500"
+          onClick={togleMenu}
+        />
+      )}
       {isOpen ? (
         <div className="fixed animate-in slide-in-from-top-5 fade-in-20 slide-out-to-top-0 fade-out-20 inset-0 z-0 w-full ">
           <ul className="absolute bg-white border-b border-zinc-200 shadow-xl flex flex-col gap-4 w-full px-10 pt-20 pb-8 h-screen">
@@ -87,18 +93,18 @@ const MobileNav = ({ user, subscription }: mobileNavProps) => {
                       <div className="flex items-center justify-center gap-2">
                         <div className="flex flex-col space-x-0.5 leading-none w-full">
                           {user.family_name && user.given_name && (
-                            <p className="font-medium text-xl text-black">
+                            <p className="font-medium text-lg text-black">
                               {`${user.given_name} ${user.family_name}`}
                             </p>
                           )}
                           {user.email && (
-                            <p className="w-fit text-lg text-slate-700">
+                            <p className="w-fit text-sm text-slate-700">
                               {user.email}
                             </p>
                           )}
                         </div>
                       </div>
-                      <Avatar className="relative w-12 h-12">
+                      <Avatar className="relative w-10 h-10">
                         {user.picture ? (
                           <div className="relative aspect-square h-full w-full">
                             <Image
@@ -124,7 +130,7 @@ const MobileNav = ({ user, subscription }: mobileNavProps) => {
                 <Separator />
                 <li>
                   {subscription?.isSubscribed ? (
-                    <Link href="/dashborad/billing">Manage Subscription</Link>
+                    <Link href="/dashboard/billing">Manage Subscription</Link>
                   ) : (
                     <Link href="/pricing" className="flex items-center">
                       Upgrade <Gem className="text-blue-600 h-4 w-4 ml-1.5" />{" "}

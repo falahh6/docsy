@@ -28,9 +28,11 @@ const Dashboard = ({ isSubscribed }: { isSubscribed: boolean }) => {
   });
 
   return (
-    <main className="mx-auto max-w-7xl md:p-10 ">
-      <div className="mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
-        <h1 className="mb-3 font-bold text-5xl text-gray-900">My Files</h1>
+    <main className="mx-auto max-w-7xl md:p-10 max-sm:w-[80%]">
+      <div className="mt-8 flex items-start max-sm:items-center max-sm:align-middle justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0 ">
+        <h1 className="mb-3 max-sm:mb-0 font-bold text-5xl text-gray-900 max-sm:text-2xl">
+          My Files
+        </h1>
 
         <UploadButton isSubscribed={isSubscribed} />
       </div>
@@ -46,18 +48,18 @@ const Dashboard = ({ isSubscribed }: { isSubscribed: boolean }) => {
             )
             .map((file) => (
               <li
-                className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
+                className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg max-sm"
                 key={file.id}
               >
                 <Link
                   href={`/dashboard/${file.id}`}
                   className="flex flex-col gap-2"
                 >
-                  <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
-                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
+                  <div className="pt-6 px-6 flex w-full items-start justify-start space-x-6">
+                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 max-sm:h-6 max-sm:w-6" />
                     <div className="flex-1 truncate">
-                      <div className="flex items-center space-x-3 ">
-                        <h3 className="truncate text-lg font-medium text-zinc-900">
+                      <div className="flex items-start space-x-3 ">
+                        <h3 className="truncate text-lg font-medium text-zinc-900 max-sm:text-sm">
                           {file.name}
                         </h3>
                       </div>

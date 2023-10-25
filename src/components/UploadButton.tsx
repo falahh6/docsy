@@ -148,8 +148,6 @@ const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
 const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  console.log(isSubscribed);
-
   return (
     <Dialog
       open={isOpen}

@@ -20,7 +20,7 @@ const NavBar = async () => {
   return (
     <nav className="sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
-        <div className="flex h-14 item-center justify-between border-b border-zinc-200">
+        <div className="flex h-14 item-center justify-between border-b border-zinc-200 max-sm:w-[85%] max-sm:mx-auto">
           <Link
             href={"/"}
             className="flex z-40 justify-between items-center font-semibold"
@@ -30,7 +30,7 @@ const NavBar = async () => {
 
           <MobileNav user={user} subscription={subscriptionPlan} />
 
-          <div className="hidden items-center space-x-4 sm:flex">
+          <div className="hidden items-center space-x-4 sm:flex max-sm:overscroll-y-none">
             {!user ? (
               <>
                 <Link

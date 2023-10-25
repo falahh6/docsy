@@ -39,7 +39,7 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
   return (
     <MaxWidthWrapper className="max-w-5xl">
       <form
-        className="mt-12"
+        className="mt-12 w-[85%] mx-auto"
         onSubmit={(e) => {
           e.preventDefault();
           createStripSession();
@@ -53,8 +53,8 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
               plan.
             </CardDescription>
           </CardHeader>
-          <CardFooter className="flex justify-between">
-            <Button type="submit">
+          <CardFooter className="flex justify-between max-sm:flex-col">
+            <Button type="submit" className="max-sm:w-full">
               {isLoading ? (
                 <Loader2 className="h-4 w-4 mr-4 animate-spin" />
               ) : null}
@@ -64,7 +64,7 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
             </Button>
 
             {subscriptionPlan.isSubscribed ? (
-              <p className="rounded-full text-xs font-medium">
+              <p className="rounded-full text-xs font-medium max-sm:mt-4 max-sm:text-left">
                 {subscriptionPlan.isCanceled
                   ? "Your will be cancelled on "
                   : "Your plan renews on "}

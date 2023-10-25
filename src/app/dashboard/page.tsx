@@ -19,6 +19,7 @@ const Page = async () => {
   const dbUser = db.user.findFirst({
     where: {
       id: user.id,
+      email: user.email!,
     },
   });
 

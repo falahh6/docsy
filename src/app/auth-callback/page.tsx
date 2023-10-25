@@ -12,14 +12,15 @@ const Page = () => {
 
   trpc.authCallback.useQuery(undefined, {
     onSuccess: ({ success }) => {
-      if (success) {
-        router.push(origin ? `${origin}` : "/dashboard");
-      }
+      // if (success) {
+      //   router.push(origin ? `${origin}` : "/dashboard");
+      // }
+      // console.log("This is log after AUTH SUCESS");
+      console.log("AUTH CALLBACK SUCESS");
     },
     onError: (err) => {
       if (err.data?.code === "UNAUTHORIZED") {
         router.push("/sign-in");
-        console.log("ab");
       }
     },
     retry: true,
