@@ -19,11 +19,8 @@ export const appRouter = router({
     const dbUser = await db.user.findFirst({
       where: {
         id: user.id,
-        email: user.email,
       },
     });
-
-    console.log("Database user : ", dbUser);
 
     if (!dbUser) {
       await db.user.create({

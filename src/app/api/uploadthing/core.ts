@@ -60,7 +60,6 @@ const onUploadComplete = async ({
       const pageLevelDocs = await loader.load();
 
       const pagesAmt = pageLevelDocs.length;
-      console.log(pagesAmt);
 
       const { subscriptionPlan } = metadata;
       const { isSubscribed } = subscriptionPlan;
