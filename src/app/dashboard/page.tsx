@@ -22,8 +22,6 @@ const Page = async () => {
     },
   });
 
-  console.log("DB USER FOUND ", dbUser?.email);
-
   if (!dbUser) redirect("/auth-callback?orgin=dashboard");
 
   return <Dashboard isSubscribed={subscriptionPlan.isSubscribed} />;

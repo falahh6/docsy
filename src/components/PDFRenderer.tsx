@@ -123,7 +123,7 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
           </Button>
         </div>
 
-        <div className="space-x-2">
+        <div className="space-x-2 max-sm:space-x-0">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button className="gap-1.5" aria-label="zoom" variant="ghost">
@@ -161,8 +161,11 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
         </div>
       </div>
 
-      <div className="flex-1 w-full max-h-screen">
-        <Simplebar className="max-h-[calc(100vh-10rem]" autoHide={false}>
+      <div className="flex-1 w-full max-h-screen max-sm:h-fit">
+        <Simplebar
+          className="max-h-[calc(100vh-10rem] max-sm:max-h-fit"
+          autoHide={false}
+        >
           <div ref={ref}>
             <Document
               loading={

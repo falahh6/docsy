@@ -83,7 +83,6 @@ export const appRouter = router({
   createStripSession: privateProcedure.mutation(async ({ ctx }) => {
     const { getUser } = getKindeServerSession();
     const user = getUser();
-    console.log("starting");
     const { userId } = ctx;
 
     const billingUrl = absoluteUrl("/dashboard/billing");
@@ -95,8 +94,6 @@ export const appRouter = router({
         id: userId,
       },
     });
-    console.log(userId);
-    console.log("db user : ", dbUser?.email, "| user :", user.email);
 
     if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" });
 
@@ -126,7 +123,6 @@ export const appRouter = router({
         userId: userId,
       },
     });
-    console.log("done");
     return { url: stripeSession.url };
   }),
 

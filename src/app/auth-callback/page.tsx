@@ -14,14 +14,12 @@ const Page = () => {
     onSuccess: ({ success }) => {
       if (success) {
         router.push(origin ? `${origin}` : "/dashboard");
-        console.log("This is log after AUTH SUCESS");
       }
     },
     onError: (err) => {
       if (err.data?.code === "UNAUTHORIZED") {
         router.push("/sign-in");
       }
-      console.log("Error after auth");
     },
     retry: true,
     retryDelay: 500,

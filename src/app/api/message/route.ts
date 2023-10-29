@@ -19,6 +19,8 @@ function customFilter(result: SearchResult, targetFileName: string): boolean {
   return result.metadata?.fileName === targetFileName;
 }
 
+export const runtime = "edge";
+
 export const POST = async (req: NextRequest) => {
   const body = await req.json();
 
@@ -40,7 +42,6 @@ export const POST = async (req: NextRequest) => {
 
   if (!file) return new Response("NOT FOUND", { status: 404 });
 
-  //
   await db.message.create({
     data: {
       text: message,
@@ -50,17 +51,18 @@ export const POST = async (req: NextRequest) => {
     },
   });
 
-  // 1 vectorise the message
-
   const embeddings = new OpenAIEmbeddings({
     openAIApiKey: process.env.OPENAI_API_KEY,
   });
 
+  // 1 . create the index
   const pineconeIndex = pinecone.Index("docsy");
 
+  //
   const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
     pineconeIndex,
   });
+
   const results = await vectorStore.similaritySearch(message, 1, {
     filter: (result: SearchResult) => customFilter(result, file.id),
   });
@@ -80,7 +82,7 @@ export const POST = async (req: NextRequest) => {
     content: msg.text,
   }));
 
-  const response = await openai.chat.completions.create({
+  const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     stream: true,
     temperature: 0,
@@ -113,10 +115,10 @@ export const POST = async (req: NextRequest) => {
   });
 
   const stream = OpenAIStream(response, {
-    async onCompletion(completeion) {
+    async onCompletion(completion) {
       await db.message.create({
         data: {
-          text: completeion,
+          text: completion,
           isUserMessage: false,
           fileId,
           userId,
