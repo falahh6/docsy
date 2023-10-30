@@ -25,25 +25,23 @@ const UserAccountNav = async ({ name, email, imageUrl }: userNavProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="overflow-visible">
-        <Button className="rounded-full h-8 w-8 aspect-square bg-slate-400 border-white border-2">
-          <Avatar className="relative w-8 h-8">
-            {imageUrl ? (
-              <div className="relative aspect-square h-full w-full">
-                <Image
-                  fill
-                  src={imageUrl}
-                  alt="profile picture"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-            ) : (
-              <AvatarFallback>
-                <span className="sr-only">{name}</span>
-                <User className="h-4 w-3 text-zinc-900" />
-              </AvatarFallback>
-            )}
-          </Avatar>
-        </Button>
+        <Avatar className="relative w-8 h-8 hover:cursor-pointer border-blue-500 hover:border-2">
+          {imageUrl ? (
+            <div className="relative aspect-square h-full w-full">
+              <Image
+                fill
+                src={imageUrl}
+                alt="profile picture"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          ) : (
+            <AvatarFallback>
+              <span className="sr-only">{name}</span>
+              <User className="h-4 w-3 text-zinc-900" />
+            </AvatarFallback>
+          )}
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <div className="flex items-center justify-center gap-2 p-2">
