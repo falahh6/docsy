@@ -22,7 +22,7 @@ const PDFfullscreen = ({ url }: pdfRendererProps) => {
           <Expand className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-7xl w-full min-w-[90%]">
+      <DialogContent className="max-h-7xl w-full min-w-[90%] max-sm:max-w-[90%] max-sm:rounded-lg">
         <SimpleBar className="max-h-[calc(100vh-10rem]" autoHide={false}>
           <div ref={ref}>
             <Document

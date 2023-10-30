@@ -1,14 +1,12 @@
 import "./globals.css";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cn, constructMetadata } from "@/lib/utils";
 import NavBar from "@/components/NavBar";
 import Providers from "@/components/Prividers";
-
 import "react-loading-skeleton/dist/skeleton.css";
 import "simplebar-react/dist/simplebar.min.css";
-
 import { Toaster } from "@/components/ui/toaster";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +26,7 @@ export default function RootLayout({
             inter.className
           )}
         >
+          <NextTopLoader showSpinner={false} />
           <Toaster />
           <NavBar />
           {children}

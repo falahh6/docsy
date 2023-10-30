@@ -161,7 +161,7 @@ const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
         <Button>Upload PDF</Button>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="max-sm:max-w-[90%] max-sm:rounded-lg">
         <UploadDropzone isSubscribed={isSubscribed} />
       </DialogContent>
     </Dialog>
