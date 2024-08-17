@@ -6,12 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider  = "mysql"
+  provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_DATABASE_URL")
 }
-
-
 
 model User {
   id    String @id @unique //matches kinde user id
@@ -41,6 +39,7 @@ model File {
 
   url      String
   key      String
+  fileText String
   messages Message[]
 
   createdAt DateTime @default(now())

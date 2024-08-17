@@ -23,6 +23,8 @@ const ChatWrapper = ({ fileId }: ChatWrapperProps) => {
     }
   );
 
+  console.log(data, isLoading)
+
   if (isLoading) {
     return (
       <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
@@ -58,33 +60,33 @@ const ChatWrapper = ({ fileId }: ChatWrapperProps) => {
     );
   }
 
-  if (data?.status === "FAILED") {
-    return (
-      <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
-        <div className="flex-1 flex justify-center items-center flex-col mb-28">
-          <div className="flex flex-col items-center gap-2">
-            <XCircle className="h-8 w-8 text-red-500" />
-            <h3 className="font-semibold text-xl">To many pages...</h3>
-            <p className="text-zinc-500 text-sm">
-              {" "}
-              Your <span>Free</span> supports upto 5 pages per PDF.{" "}
-            </p>
-            <Link
-              href={"/dashboard"}
-              className={buttonVariants({
-                variant: "secondary",
-                className: "mt-4",
-              })}
-            >
-              <ChevronLeft className="h-3 w-3 mr-1.5" /> Back
-            </Link>
-          </div>
-        </div>
+  // if (data?.status === "FAILED") {
+  //   return (
+  //     <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
+  //       <div className="flex-1 flex justify-center items-center flex-col mb-28">
+  //         <div className="flex flex-col items-center gap-2">
+  //           <XCircle className="h-8 w-8 text-red-500" />
+  //           <h3 className="font-semibold text-xl">To many pages...</h3>
+  //           <p className="text-zinc-500 text-sm">
+  //             {" "}
+  //             Your <span>Free</span> supports upto 5 pages per PDF.{" "}
+  //           </p>
+  //           <Link
+  //             href={"/dashboard"}
+  //             className={buttonVariants({
+  //               variant: "secondary",
+  //               className: "mt-4",
+  //             })}
+  //           >
+  //             <ChevronLeft className="h-3 w-3 mr-1.5" /> Back
+  //           </Link>
+  //         </div>
+  //       </div>
 
-        <ChatInput isDisabled={true} />
-      </div>
-    );
-  }
+  //       <ChatInput isDisabled={true} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <ChatContextProvider fileId={fileId}>

@@ -74,7 +74,7 @@ const Dashboard = ({ isSubscribed }: { isSubscribed: boolean }) => {
                   </div>
                   <div className="flex items-center gap-2">
                     <MessagesSquare className="h-4 w-4" />
-                    88
+                    {file.messages.length}
                   </div>
                   <Button
                     onClick={() => deleteFile({ id: file.id })}
