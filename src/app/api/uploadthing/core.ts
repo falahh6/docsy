@@ -48,6 +48,7 @@ const onUploadComplete = async ({
       name: file.name,
       userId: metadata.user,
       url: file.url,
+      fileText: "",
       uploadStatus: "PROCESSING",
     },
   });
@@ -58,16 +59,31 @@ const onUploadComplete = async ({
       const loader = new PDFLoader(blob);
 
       const pageLevelDocs = await loader.load();
+      console.log("pageLevelDocs", pageLevelDocs[0].pageContent);
+
+      await db.file.update({
+        data: {
+          fileText: JSON.stringify(pageLevelDocs[0].pageContent),
+        },
+        where: {
+          id: createdFile.id,
+        },
+      });
 
       const pagesAmt = pageLevelDocs.length;
+      console.log(pagesAmt);
 
       const { subscriptionPlan } = metadata;
       const { isSubscribed } = subscriptionPlan;
+
+      console.log(subscriptionPlan, isSubscribed);
 
       const isProExceeded =
         pagesAmt > PLANS.find((plan) => plan.name === "Pro")!.pagesPerPdf;
       const isFreeExceeded =
         pagesAmt > PLANS.find((plan) => plan.name === "Free")!.pagesPerPdf;
+
+      console.log(isProExceeded, isFreeExceeded);
 
       if (
         (isSubscribed && isProExceeded) ||
@@ -87,9 +103,9 @@ const onUploadComplete = async ({
       // const pinecone = await getPineconeClient();
       const pineconeIndex = pinecone.Index("docsy");
 
-      const embeddings = new OpenAIEmbeddings({
-        openAIApiKey: process.env.OPENAI_API_KEY,
-      });
+      // const embeddings = new OpenAIEmbeddings({
+      //   openAIApiKey: process.env.OPENAI_API_KEY,
+      // });
 
       const combinedData = pageLevelDocs.map((document) => {
         return {
@@ -101,9 +117,9 @@ const onUploadComplete = async ({
         };
       });
 
-      await PineconeStore.fromDocuments(combinedData, embeddings, {
-        pineconeIndex,
-      });
+      // await PineconeStore.fromDocuments(combinedData, embeddings, {
+      //   pineconeIndex,
+      // });
 
       await db.file.update({
         data: {

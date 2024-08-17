@@ -14,10 +14,22 @@ export async function getUserSubscriptionPlan() {
 
   if (!user?.id) {
     return {
-      ...PLANS[0],
+      id: "plan_id",
+      name: "Dummy Plan",
+      description: "This is a placeholder description for a dummy plan.",
+      price: {
+        currency: "USD",
+        amount: 999,
+        interval: "month",
+        priceIds: {
+          test: "price_dummy",
+        },
+      },
       isSubscribed: false,
       isCanceled: false,
       stripeCurrentPeriodEnd: null,
+      stripeSubscriptionId: "sub_dummy",
+      stripeCustomerId: "cus_dummy",
     };
   }
 
@@ -55,11 +67,21 @@ export async function getUserSubscriptionPlan() {
   }
 
   return {
-    ...plan,
-    stripeSubscriptionId: dbUser.stripeSubscriptionId,
-    stripeCurrentPeriodEnd: dbUser.stripeCurrentPeriodEnd,
-    stripeCustomerId: dbUser.stripeCustomerId,
-    isSubscribed,
-    isCanceled,
+    id: "plan_id",
+    name: "Dummy Plan",
+    description: "This is a placeholder description for a dummy plan.",
+    price: {
+      currency: "USD",
+      amount: 999,
+      interval: "month",
+      priceIds: {
+        test: "price_dummy",
+      },
+    },
+    isSubscribed: false,
+    isCanceled: false,
+    stripeCurrentPeriodEnd: null,
+    stripeSubscriptionId: "sub_dummy",
+    stripeCustomerId: "cus_dummy",
   };
 }

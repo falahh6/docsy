@@ -45,10 +45,12 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
         throw new Error("Failed to send message");
       }
 
+      console.log("ANTHROPIC response", response)
       return response.body;
     },
 
     onMutate: async ({ message }) => {
+      console.log("onMutate")
       backupMessage.current = message;
       setMessage("");
 
@@ -96,6 +98,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       };
     },
     onSuccess: async (stream) => {
+      console.log("onSuccess")
       setIsLoading(false);
 
       if (!stream) {
@@ -117,6 +120,8 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
         done = doneReading;
 
         const chunkValue = decoder.decode(value);
+
+        console.log("CHUCNKED RESPONSE : ", chunkValue)
 
         accResponse += chunkValue;
 
@@ -167,6 +172,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       }
     },
     onError: (_, __, context) => {
+      console.log("onError")
       setMessage(backupMessage.current);
 
       utils.getFileMessages.setData(
