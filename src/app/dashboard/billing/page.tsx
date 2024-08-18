@@ -8,6 +8,8 @@ export const metadata = constructMetadata({
 const Page = async () => {
   const subscriptionPlan = await getUserSubscriptionPlan();
 
+  console.log(subscriptionPlan);
+
   return <BillingForm subscriptionPlan={subscriptionPlan} />;
 };
 

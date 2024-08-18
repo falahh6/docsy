@@ -19,7 +19,7 @@ export async function getUserSubscriptionPlan() {
       description: "This is a placeholder description for a dummy plan.",
       price: {
         currency: "USD",
-        amount: 999,
+        amount: 99,
         interval: "month",
         priceIds: {
           test: "price_dummy",
@@ -50,7 +50,7 @@ export async function getUserSubscriptionPlan() {
 
   const isSubscribed = Boolean(
     dbUser.stripePriceId &&
-      dbUser.stripeCurrentPeriodEnd && // 86400000 = 1 day
+      dbUser.stripeCurrentPeriodEnd &&
       dbUser.stripeCurrentPeriodEnd.getTime() + 86_400_000 > Date.now()
   );
 
@@ -72,7 +72,7 @@ export async function getUserSubscriptionPlan() {
     description: "This is a placeholder description for a dummy plan.",
     price: {
       currency: "USD",
-      amount: 999,
+      amount: 99,
       interval: "month",
       priceIds: {
         test: "price_dummy",

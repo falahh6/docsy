@@ -24,9 +24,9 @@ const UserAccountNav = async ({ name, email, imageUrl }: userNavProps) => {
   const subscriptionPlan = await getUserSubscriptionPlan();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="overflow-visible">
+      <DropdownMenuTrigger asChild className="overflow-visible border-2">
         <Avatar className="relative w-8 h-8 hover:cursor-pointer border-blue-500 hover:border-2">
-          {imageUrl ? (
+          {/* {imageUrl ? (
             <div className="relative aspect-square h-full w-full">
               <Image
                 fill
@@ -35,12 +35,12 @@ const UserAccountNav = async ({ name, email, imageUrl }: userNavProps) => {
                 referrerPolicy="no-referrer"
               />
             </div>
-          ) : (
-            <AvatarFallback>
-              <span className="sr-only">{name}</span>
-              <User className="h-4 w-3 text-zinc-900" />
-            </AvatarFallback>
-          )}
+          ) : ( */}
+          <AvatarFallback className="text-gray-500">
+            <span className="sr-only text-gray-600">{name}</span>
+            <User className="h-4 w-4 text-zinc-900" />
+          </AvatarFallback>
+          {/* )} */}
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

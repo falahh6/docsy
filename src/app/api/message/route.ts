@@ -117,7 +117,7 @@ export const POST = async (req: NextRequest) => {
   USER INPUT: ${message}`;
 
   const response = await anthropic.completions.create({
-    max_tokens_to_sample: 1000,
+    max_tokens_to_sample: 100,
     prompt: Anthropic.HUMAN_PROMPT + PROMPT + Anthropic.AI_PROMPT,
     model: "claude-2.1",
     stream: true,

@@ -74,7 +74,7 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
   return (
     <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
       <div className="h-14 w-full border-b border-zinc-200 flex items-center justify-between px-2">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 max-sm:gap-1">
           <Button
             disabled={currPage <= 1}
             aria-label="previous page"
@@ -88,7 +88,7 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
             <ChevronDownIcon className="h-4 w-4" />
           </Button>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 max-sm:gap-1">
             <Input
               {...register("page")}
               className={cn(
@@ -126,7 +126,11 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
         <div className="space-x-2 max-sm:space-x-0">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="gap-1.5" aria-label="zoom" variant="ghost">
+              <Button
+                className="gap-1.5 max-sm:gap-1"
+                aria-label="zoom"
+                variant="ghost"
+              >
                 <Search className="h-4 w-4" />
                 {scale * 100} %{" "}
                 <ChevronDownIcon className="h-3 w-3 opacity-50" />
@@ -170,7 +174,7 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
             <Document
               loading={
                 <div className="flex justify-center">
-                  <Loader2 className="my-24 h-6 2-6 animate-spin" />
+                  <Loader2 className="my-24 mb-0 h-6 2-6 animate-spin" />
                 </div>
               }
               onLoadError={() => {
@@ -182,7 +186,7 @@ const PDFRenderer = ({ url }: pdfRendererProps) => {
               }}
               onLoadSuccess={({ numPages }) => setNumPages(numPages)}
               file={url}
-              className=" max-h-[80vh] h-[80vh] overflow-scroll"
+              className=" max-h-[85vh] h-[85vh] overflow-scroll"
               rotate={rotate}
             >
               {renderedScale && isLoading ? (
