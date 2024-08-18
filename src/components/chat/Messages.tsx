@@ -92,12 +92,14 @@ const Messages = ({ fileId }: MessagesProps) => {
           <Skeleton className="h-16" />
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center gap-2">
-          <MessageSquare className="h-8 w-8 text-blue-500" />
-          <h3 className="font-semibol text-xl">You&apos;re all set.</h3>
-          <p className="text-zinc-500 text-sm">
-            Ask your first question to get started.
-          </p>
+        <div className="min-h-full my-auto bg-red-100">
+          <div className="h-full justify-center flex flex-col items-center gap-2">
+            <MessageSquare className="h-8 w-8 text-blue-500" />
+            <h3 className="font-semibol text-xl">You&apos;re all set.</h3>
+            <p className="text-zinc-500 text-sm">
+              Ask your first question to get started.
+            </p>
+          </div>
         </div>
       )}
     </div>

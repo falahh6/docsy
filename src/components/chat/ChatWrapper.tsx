@@ -23,7 +23,7 @@ const ChatWrapper = ({ fileId }: ChatWrapperProps) => {
     }
   );
 
-  console.log(data, isLoading)
+  console.log(data, isLoading);
 
   if (isLoading) {
     return (
